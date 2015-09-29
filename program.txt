@@ -1,0 +1,101 @@
+# In each line, everything after the sign '#' should be treated as a comment.
+# Empty lines of lines composed of spaces and tabs are skippable.
+
+# What follows is comment for statement: filename i"${jmbag}-dz1.zip".
+# Check that filename is correct; please observe that in strings a variable replacement
+# must be supported, so if the content of the variable "jmbag" is "0012345678", the
+# string shown below will be resolved as: "0012345678-dz1.zip". Letter "i" in front of
+# the string indicates that the string should be treated as case-insensitive; without
+# this, string should be treated as case-sensitive.
+
+filename i"${jmbag}-dz1.zip"
+
+# execute next block only if the format of the given file is ZIP
+format zip {
+
+ # some basic ZIP structure checks
+ #-----------------------------------
+
+ # check that directory homework04 exists in ZIP
+ exists dir "homework04"
+
+ # check that file build.xml exists in ZIP
+ exists file "homework04/build.xml"
+
+ # check that following directories do not exist in ZIP
+ !exists dir "homework04/bin"
+ !exists d   "homework04/build"
+ !exists di  "homework04/dist"
+
+ # let us define a variable with name "src" and set its value to the path with components "homework04", "src", "main", "java"
+ def src "homework04/src/main/java"
+
+ # check that the path defined by variable "src" exists
+ exists dir "${src}"
+
+ # some checks for the problem 1 from this homework
+ #-------------------------------------------------
+
+ # let us define a variable "dir1" as shown below; everything after symbol ":" should be
+ # treated as Java package name so it should be converted to appropriate directory structure,
+ # so that the effect of the first line below will be to define a variable "dir1" as a
+ # path: "src/main/java/hr/fer/zemris/java/tecaj/hw5/problem1a".
+ # Then check that the required files exists.
+
+ def dir1 "${src}:hr.fer.zemris.java.tecaj.hw5.problem1a"
+ exists f "${dir1}/IntegerStorage.java"
+ exists f "${dir1}/IntegerStorageObserver.java"
+ exists f "${dir1}/ObserverExample.java"
+
+ # some checks for the problem 2 from this homework
+ #-------------------------------------------------
+
+ def dir1 "${src}:hr.fer.zemris.java.custom.scripting.demo"
+ exists f "${dir1}/ObjectMultistackDemo.java"
+
+ def dir1 "${src}:hr.fer.zemris.java.custom.scripting.exec"
+ exists f "${dir1}/ObjectMultistack.java"
+ exists f "${dir1}/ValueWrapper.java"
+
+ # some checks for the problem 4 from this homework
+ #-------------------------------------------------
+
+ def dir1 "${src}:hr.fer.zemris.java.tecaj.hw5.problem1c"
+ exists f "${dir1}/VLister.java"
+
+ # some checks for the problem 5 from this homework
+ #-------------------------------------------------
+
+ def dir1 "${src}:hr.fer.zemris.java.tecaj.hw5.crypto"
+ exists f "${dir1}/Crypto.java"
+
+
+ # some checks for the problem 1 from the crypted part of this homework
+ #---------------------------------------------------------------------
+
+ def dir1 "${src}:hr.fer.zemris.java.tecaj.hw5"
+ exists f "${dir1}/MyShell.java"
+
+ # some checks for the problem 7 from this homework
+ #-------------------------------------------------
+
+ def dir1 "${src}:hr.fer.zemris.java.filechecking.demo"
+ exists f "${dir1}/FCDemo.java"
+
+ def dir1 "${src}:hr.fer.zemris.java.filechecking"
+ exists f "${dir1}/FCFileVerifier.java"
+ exists f "${dir1}/FCProgramChecker.java"
+
+ # Terminate the processing of this script; after executing the terminate
+ # statement, no further statement can be executed.
+ terminate
+}
+
+# Next statement acts as unsuccessfull test: its effect is to register that
+# errors exist and optionally to provide specified error message (or use generic). 
+# This statement does not terminate the processing of the script.
+
+fail @"Datoteka koju ste uploadali nije dozvoljenog formata."
+
+# Terminate the processing.
+terminate
